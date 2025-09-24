@@ -23,7 +23,7 @@ Each layer is independently testable and designed for future extension.
 
 ---
 
-## 🛡️ Memory Mapping
+**Memory Mapping**
 
 | Flash Sector | Address Range        | Purpose              |
 |--------------|----------------------|----------------------|
@@ -33,15 +33,15 @@ Each layer is independently testable and designed for future extension.
 
 Bootloader ensures safe handoff to the application only after CRC verification and command validation.
 
----
+
 
 **Packet-Based Command Protocol**
 
 Communication is driven by serialized packets, each containing:
 
-- **Command Code** (e.g., `BL_GET_VER`, `BL_MEM_WRITE`)
+- **Command Code** (e.g., `BL_GET_VER`, `BL_CMD_HELP`)
 - **Payload Length**
-- **Payload Data**
+- **Payload Data**(not supported as of now)
 - **CRC32 Checksum**
 
 **Supported Commands(as of now)**
@@ -56,7 +56,6 @@ Communication is driven by serialized packets, each containing:
 
 Each command is acknowledged with an ACK/NACK response and optional status payload.
 
----
 
  **CRC Verification**
 
@@ -64,18 +63,23 @@ Each command is acknowledged with an ACK/NACK response and optional status paylo
 - Ensures integrity of incoming packets before flash operations.
 - Prevents accidental overwrites and corrupted jumps.
 
----
 
 **Bootloader Flow**
 
-1. **Startup**: Initializes clocks, UART, and CRC peripheral.
-2. **Command Listening**: Waits for valid command packets via UART.
-3. **Packet Parsing**: Validates structure and CRC.
-4. **Execution**: Performs flash write/erase/jump based on command.
-5. **Response**: Sends ACK/NACK and optional data.
-6. **Handoff**: Jumps to application if requested and verified.
+1)This bootloader for STM32F407 DISC uses a GPIO-triggered entry mechanism and a UART-driven command interface to manage firmware operations securely.
+2)Startup Check: If GPIOB PIN 5 is high, the bootloader enters interactive mode; otherwise, it jumps directly to the user application.
+3)UART Menu Interface: Presents a command menu (BL_GET_VER, BL_GET_HELP, BL_GET_CID, etc.) and waits for user input.
+4)Packet Generation: Constructs command packets with CRC integrity using build_bl_packets().
+5)Command Execution: Processes packets via bootloader_uart_read_data() and responds with ACK/NACK.
+6)User-Controlled Exit: Prompts user to continue in bootloader or jump to application using bootloader_jump_to_user_app().
 
----
+This flow ensures safe, user-driven firmware handling with clear separation between bootloader and application memory regions.
 
-## 📁 Folder Structure
+**Hardware Requirements**
+
+1)STM32F407 Discovery Board (or compatible Cortex-M4 MCU).
+
+2)UART-USB Bridge (e.g., CP2102) for terminal output.
+
+Software Requirements 1)STM32CubeIDE / Bare-metal Toolchain. 2)TeraTerm / PuTTY for UART terminal logging. 3)Git for version control.
 
