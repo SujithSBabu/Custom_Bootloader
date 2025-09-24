@@ -1,0 +1,6 @@
+../BootLoader/Src/bl_cmd_handling.c:13:6:bootloader_handle_getVersion_cmd	24	static
+../BootLoader/Src/bl_cmd_handling.c:34:6:bootloader_handle_getHelp_cmd	24	static
+../BootLoader/Src/bl_cmd_handling.c:54:6:bootloader_handle_getChipID_cmd	24	static
+../BootLoader/Src/bl_cmd_handling.c:74:9:get_bl_version	4	static
+../BootLoader/Src/bl_cmd_handling.c:79:6:get_bl_commands_into_reply_buff	16	static
+../BootLoader/Src/bl_cmd_handling.c:88:6:get_bl_chip_id_into_reply_buff	16	static

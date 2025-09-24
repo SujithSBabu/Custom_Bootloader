@@ -1,0 +1,2 @@
+../BootLoader/Src/bootloader.c:20:6:bootloader_uart_read_data	16	static
+../BootLoader/Src/bootloader.c:49:6:bootloader_jump_to_user_app	24	static
